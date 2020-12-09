@@ -2,9 +2,9 @@ import React from "react";
 
 const App = () => {
   return (
-    <>
+    <div data-cy="siteName">
       Dream Time News
-    </>
+    </div>
   );
 };
 
