@@ -1,11 +1,11 @@
-import React from "react"
+import React from "react";
 
-function App() {
+const App = () => {
   return (
-    <div>
+    <>
       Dream Time News
-    </div>
+    </>
   );
-}
+};
 
 export default App;
