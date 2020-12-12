@@ -6,24 +6,30 @@ describe("Journalist can login", () => {
       method: "POST",
       url: "http://localhost:3000/api/auth/sign_in",
       response: "fixture:journalist_can_login.json",
-      header: {
-        uid: "journalist@mail.com",
-        access_token: "blabla",
-        client: "1337",
-        token_type: "Bearer",
-        expiry: 169999,
-      },
+    });
+    cy.route({
+      method: "GET",
+      url: "http://localhost:3000/api/auth/validate_token",
+      response: "fixture:journalist_can_login.json",
     });
     cy.visit("/");
   });
 
   it("successfully", () => {
-    cy.get("[data-cy='login-btn']").click();
+    // cy.get("[data-cy='login-btn']").click();
     cy.get("[data-cy='login-form']").within(() => {
       cy.get("[data-cy='email']").type("journalist@mail.com");
       cy.get("[data-cy='password']").type("password");
       cy.get("[data-cy='submit-btn']").contains("Submit").click();
     });
+    cy.get("[data-cy='header-user-email']").should(
+      "contain",
+      "Logged in as journalist@mail.com"
+    );
+    cy.get("[data-cy='flash-message']").should(
+      "contain",
+      "You are logged in"
+    );
   });
 
   it("sad path: unsuccessfully", () => {
@@ -36,14 +42,14 @@ describe("Journalist can login", () => {
         success: false,
       },
     });
-    cy.get("[data-cy='login-btn']").click();
+    // cy.get("[data-cy='login-btn']").click();
     cy.get("[data-cy='login-form']").within(() => {
       cy.get("[data-cy='email']").type("journalist@mail.com");
       cy.get("[data-cy='password']").type("wrongpassword");
-      cy.get("button").contains("Submit").click();
+      cy.get("[data-cy='submit-btn']").contains("Submit").click();
     });
-    cy.get("[data-cy='error-message']").contains(
-      "Login failed, please try again"
+    cy.get("[data-cy='header-user-email']").contains(
+      "You're not logged in."
     );
   });
 });

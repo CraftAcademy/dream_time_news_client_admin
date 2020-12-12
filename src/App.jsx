@@ -1,11 +1,13 @@
 import React from "react";
-import { useSelector } from 'react-redux';
 import Authentication from './components/Authentication';
+import Header from './components/Header'
+import { useSelector } from 'react-redux';
 
 const App = () => {
   const auth = useSelector(state => state.auth)
   return (
     <>
+      <Header />
       <Authentication />
       {auth &&
         <p data-cy="flash-message">
