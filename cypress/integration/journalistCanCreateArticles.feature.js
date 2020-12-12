@@ -6,9 +6,14 @@ describe("Journalist can create articles", () => {
       method: "POST",
       url: "http://localhost:3000/api/auth/sign_in",
       response: "fixture:journalist_can_login.json",
-      headers: {
-        uid: "journalist@mail.com",
-      },
+      // headers: {
+      //   uid: "journalist@mail.com",
+      // },
+    });
+    cy.route({
+      method: "GET",
+      url: "http://localhost:3000/api/auth/validate_token",
+      response: "fixture:journalist_can_login.json",
     });
     cy.route({
       method: "POST",
