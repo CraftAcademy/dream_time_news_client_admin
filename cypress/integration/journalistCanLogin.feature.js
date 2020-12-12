@@ -16,7 +16,6 @@ describe("Journalist can login", () => {
   });
 
   it("successfully", () => {
-    // cy.get("[data-cy='login-btn']").click();
     cy.get("[data-cy='login-form']").within(() => {
       cy.get("[data-cy='email']").type("journalist@mail.com");
       cy.get("[data-cy='password']").type("password");
@@ -26,10 +25,7 @@ describe("Journalist can login", () => {
       "contain",
       "Logged in as journalist@mail.com"
     );
-    cy.get("[data-cy='flash-message']").should(
-      "contain",
-      "You are logged in"
-    );
+    cy.get("[data-cy='flash-message']").should("contain", "You are logged in");
   });
 
   it("sad path: unsuccessfully", () => {
@@ -42,14 +38,12 @@ describe("Journalist can login", () => {
         success: false,
       },
     });
-    // cy.get("[data-cy='login-btn']").click();
+
     cy.get("[data-cy='login-form']").within(() => {
       cy.get("[data-cy='email']").type("journalist@mail.com");
       cy.get("[data-cy='password']").type("wrongpassword");
       cy.get("[data-cy='submit-btn']").contains("Submit").click();
     });
-    cy.get("[data-cy='header-user-email']").contains(
-      "You're not logged in."
-    );
+    cy.get("[data-cy='header-user-email']").contains("You're not logged in.");
   });
 });
