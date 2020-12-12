@@ -6,9 +6,6 @@ describe("Journalist can create articles", () => {
       method: "POST",
       url: "http://localhost:3000/api/auth/sign_in",
       response: "fixture:journalist_can_login.json",
-      // headers: {
-      //   uid: "journalist@mail.com",
-      // },
     });
     cy.route({
       method: "GET",
@@ -44,6 +41,9 @@ describe("Journalist can create articles", () => {
       );
       cy.get('[data-cy="create-article-button"]').click();
     });
-    cy.get('[data-cy="response-message"]').should("contain", "Your article was created");
+    cy.get('[data-cy="response-message"]').should(
+      "contain",
+      "Your article was created"
+    );
   });
 });

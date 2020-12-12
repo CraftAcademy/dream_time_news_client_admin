@@ -1,6 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 
 const CreateArticleForm = () => {
+  const [message, setMessage] = useState()
+
+  const onCreateHandler = (event) => {
+    event.preventDefault()
+    setMessage("Your article was created")
+  }
+
   return (
     <>
       <form data-cy="create-article-form">
@@ -28,9 +35,15 @@ const CreateArticleForm = () => {
           name="input-content"
           placeholder="Content"
         />
-        <button data-cy="create-article-button" type="submit" value="submit">
-          Submit
+        <button 
+          data-cy="create-article-button" 
+          type="submit" 
+          value="submit"
+          onClick={onCreateHandler}
+        >
+          Create Article
         </button>
+          <p data-cy="response-message">{message && message}</p>
       </form>
     </>
   );
