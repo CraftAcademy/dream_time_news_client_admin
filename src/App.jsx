@@ -6,7 +6,6 @@ import CreateArticleForm from "./components/CreateArticleForm";
 
 const App = () => {
   const auth = useSelector((state) => state.auth);
-
   return (
     <div className="div-main">
       <Header />

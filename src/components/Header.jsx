@@ -7,7 +7,7 @@ const Header = () => {
     <>
       <h3 data-cy="header-user-email">
         {currentUser
-          ? `Logged in as ${currentUser.email}`
+          ? `Logged in as ${currentUser.uid}`
           : "You're not logged in."}
       </h3>
     </>
