@@ -13,7 +13,8 @@ const App = () => {
       {currentUser ? (
         <>
           <CreateArticleForm />
-          {auth && <p data-cy="flash-message">{auth.message}</p>}
+          {auth && <p style={{ fontWeight: 'bold', fontSize: 20, color: 'black' }}
+            data-cy="flash-message">{auth.message}</p>}
         </>
       ) : (
         <Authentication />
