@@ -6,17 +6,13 @@ const CreateArticleForm = () => {
   const [message, setMessage] = useState()
   const [title, setTitle] = useState()
   const [subtitle, setSubtitle] = useState()
-  const [author, setAuthor] = useState()
   const [content, setContent] = useState()
 
   let headers = useSelector((state) => state.currentUser)
-
   const saveArticle = async (e) => {
     e.preventDefault()
-    debugger
     setTitle(e.target.title.value);
     setSubtitle(e.target.input_sub_title.value)
-    setAuthor(e.target.input_author.value)
     setContent(e.target.input_content.value)
     setMessage("Your article was created")
     headers = {
@@ -31,13 +27,16 @@ const CreateArticleForm = () => {
           article: {
             title: title,
             sub_title: subtitle,
-            author_id: author,
             content: content,
           },
+        },
+        {
+          headers: headers,
         }
       )
     }
     catch (err) {
+      console.error(err);
       alert("Something went wrong!")
     }
   }
