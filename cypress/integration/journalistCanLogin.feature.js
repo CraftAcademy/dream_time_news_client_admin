@@ -6,6 +6,9 @@ describe("Journalist can login", () => {
       method: "POST",
       url: "http://localhost:3000/api/auth/sign_in",
       response: "fixture:journalist_can_login.json",
+      headers: {
+        uid: "journalist@mail.com",
+      },
     });
     cy.route({
       method: "GET",

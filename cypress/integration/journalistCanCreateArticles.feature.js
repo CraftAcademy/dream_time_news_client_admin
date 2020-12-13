@@ -7,11 +7,7 @@ describe("Journalist can create articles", () => {
       url: "http://localhost:3000/api/auth/sign_in",
       response: "fixture:journalist_can_login.json",
       headers: {
-        uid: "user@gmail.com",
-        access_token: "blabla",
-        client: "1337",
-        token_type: "Bearer",
-        expiry: 169999,
+        uid: "journalist@mail.com",
       },
     });
     cy.route({
