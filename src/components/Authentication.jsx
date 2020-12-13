@@ -10,7 +10,6 @@ const Authentication = () => {
     let email = event.target.email.value;
     let password = event.target.password.value;
     let authenticationResponse = await auth.signIn(email, password);
-
     dispatch({
       type: "SET_CURRENT_USER",
       payload: authenticationResponse.data,
