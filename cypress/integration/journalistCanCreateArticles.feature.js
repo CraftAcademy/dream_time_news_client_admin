@@ -21,15 +21,14 @@ describe("Journalist can create articles", () => {
       },
     });
     cy.visit("/");
+  });
 
+  it("successfully", () => {
     cy.get("[data-cy='login-form']").within(() => {
       cy.get("[data-cy='email']").type("journalist@mail.com");
       cy.get("[data-cy='password']").type("password");
       cy.get("[data-cy='submit-btn']").contains("Submit").click();
     });
-  });
-
-  it("successfully", () => {
     cy.get('[data-cy="create-article-form"]').within(() => {
       cy.get('[data-cy="input-title"]').type("Covid vaccine is found");
       cy.get('[data-cy="input-sub-title"]').type(
@@ -46,4 +45,27 @@ describe("Journalist can create articles", () => {
       "Your article was created"
     );
   });
+
+  it("unauthorized", () => {
+    cy.get("[data-cy='login-form']").within(() => {
+      cy.get("[data-cy='email']").type("wrong.email");
+      cy.get("[data-cy='password']").type("wrong password");
+      cy.get("[data-cy='submit-btn']").contains("Submit").click();
+    });
+    cy.get('[data-cy="create-article-form"]').within(() => {
+      cy.get('[data-cy="input-title"]').type("Covid vaccine is found");
+      cy.get('[data-cy="input-sub-title"]').type(
+        "Each person should receive two doses of vaccine"
+      );
+      cy.get('[data-cy="input-author"]').type("William Super");
+      cy.get('[data-cy="input-content"]').type(
+        "Russia has distributed vaccines months ago"
+      );
+      cy.get('[data-cy="create-article-button"]').click();
+    });
+    cy.get('[data-cy="response-message"]').should(
+      "contain",
+      "You need to be an authorized user"
+    );
+  })
 });
