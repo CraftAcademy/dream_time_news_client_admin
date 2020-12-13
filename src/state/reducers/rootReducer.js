@@ -6,7 +6,6 @@ const rootReducer = (state = {}, action) => {
         currentUser: action.payload,
         auth: { message: "You are logged in", status: true },
       };
-
     default:
       return state;
   }
