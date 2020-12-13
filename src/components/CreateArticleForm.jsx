@@ -1,25 +1,25 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import axios from "axios"
+import axios from "axios";
 
 const CreateArticleForm = () => {
-  const [message, setMessage] = useState()
-  const [title, setTitle] = useState()
-  const [subtitle, setSubtitle] = useState()
-  const [content, setContent] = useState()
+  const [message, setMessage] = useState();
+  const [title, setTitle] = useState();
+  const [subtitle, setSubtitle] = useState();
+  const [content, setContent] = useState();
 
-  let headers = useSelector((state) => state.currentUser)
+  let headers = useSelector((state) => state.currentUser);
   const saveArticle = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     setTitle(e.target.title.value);
-    setSubtitle(e.target.input_sub_title.value)
-    setContent(e.target.input_content.value)
-    setMessage("Your article was created")
+    setSubtitle(e.target.input_sub_title.value);
+    setContent(e.target.input_content.value);
+    setMessage("Your article was created");
     headers = {
       ...headers,
       "Content-type": "application/json",
-      Accept: "application/json"
-    }
+      Accept: "application/json",
+    };
     try {
       await axios.post(
         "/articles",
@@ -33,13 +33,12 @@ const CreateArticleForm = () => {
         {
           headers: headers,
         }
-      )
-    }
-    catch (err) {
+      );
+    } catch (err) {
       console.error(err);
-      alert("Something went wrong!")
+      alert("Something went wrong!");
     }
-  }
+  };
 
   return (
     <>
@@ -52,31 +51,20 @@ const CreateArticleForm = () => {
         />
         <br />
         <input
-          data-cy="input-author"
-          type="text"
-          name="input_author"
-          placeholder="Author"
-        />
-        <br />
-        <input
           data-cy="input-sub-title"
           type="text"
           name="input_sub_title"
           placeholder="Sub Title"
         />
         <br />
-        <input
+        <textarea
           data-cy="input-content"
           type="text"
           name="input_content"
           placeholder="Content"
         />
         <br />
-        <button
-          data-cy="create-article-button"
-          type="submit"
-          value="submit"
-        >
+        <button data-cy="create-article-button" type="submit" value="submit">
           Create Article
         </button>
         <p data-cy="response-message">{message && message}</p>
