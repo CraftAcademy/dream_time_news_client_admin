@@ -12,7 +12,7 @@ describe("Journalist can login", () => {
     });
     cy.route({
       method: "GET",
-      url: "http://localhost:3000/api/auth/validate_token",
+      url: "http://localhost:3000/api/auth/validate_token**",
       response: "fixture:journalist_can_login.json",
     });
     cy.visit("/");

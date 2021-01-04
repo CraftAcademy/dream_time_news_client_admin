@@ -10,10 +10,15 @@ describe("Journalist can create articles", () => {
         uid: "journalist@mail.com",
       },
     });
+        cy.route({
+          method: "GET",
+          url: "http://localhost:3000/api/auth/validate_token**",
+          response: "fixture:journalist_can_login.json",
+        });
     cy.route({
       method: "POST",
       url: "http://localhost:3000/api/articles",
-      response: {},
+      response: { message: "Your article was successfully created!" },
     });
     cy.visit("/");
   });
@@ -36,7 +41,7 @@ describe("Journalist can create articles", () => {
     });
     cy.get('[data-cy="response-message"]').should(
       "contain",
-      "Your article was created"
+      "Your article was successfully created!"
     );
   });
 

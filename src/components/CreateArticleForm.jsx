@@ -1,49 +1,19 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import axios from "axios";
-import {Form, Input, TextArea, Button, Message } from 'semantic-ui-react'
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { Form, Input, TextArea, Button, Message } from "semantic-ui-react";
+import ArticlesService from "../modules/ArticlesService";
 
 const CreateArticleForm = () => {
-  const [message, setMessage] = useState();
-  const [title, setTitle] = useState();
-  const [subtitle, setSubtitle] = useState();
-  const [content, setContent] = useState();
+  const dispatch = useDispatch();
 
-  let headers = useSelector((state) => state.currentUser);
-  const saveArticle = async (e) => {
-    e.preventDefault();
-    setTitle(e.target.title.value);
-    setSubtitle(e.target.input_sub_title.value);
-    setContent(e.target.input_content.value);
-    setMessage("Your article was created");
-    headers = {
-      ...headers,
-      "Content-type": "application/json",
-      Accept: "application/json",
-    };
-    try {
-      await axios.post(
-        "/articles",
-        {
-          article: {
-            title: title,
-            sub_title: subtitle,
-            content: content,
-          },
-        },
-        {
-          headers: headers,
-        }
-      );
-    } catch (err) {
-      console.error(err);
-      alert("Something went wrong!");
-    }
-  };
+  const message = useSelector((state) => state.createArticleMessage);
 
   return (
     <>
-      <Form data-cy="create-article-form" onSubmit={(e) => saveArticle(e)}>
+      <Form
+        data-cy="create-article-form"
+        onSubmit={(event) => ArticlesService.create(event, dispatch)}
+      >
         <Form.Field
           data-cy="input-title"
           label="Title"
@@ -67,19 +37,19 @@ const CreateArticleForm = () => {
           placeholder="Content"
         />
         <br />
-        <Button color="green"
+        <Button
+          color="green"
           data-cy="create-article-button"
           type="submit"
-          value="submit">
+          value="submit"
+        >
           Create Article
         </Button>
-        {message &&
-        <Message
-          color="green"
-          size="big"
-          data-cy="response-message">{message}
-        </Message>
-      }
+        {message && (
+          <Message size="big" data-cy="response-message">
+            {message}
+          </Message>
+        )}
       </Form>
     </>
   );

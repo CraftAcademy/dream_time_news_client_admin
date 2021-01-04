@@ -6,6 +6,11 @@ const rootReducer = (state = {}, action) => {
         currentUser: action.payload,
         auth: { message: "You are logged in", status: true },
       };
+    case "SET_ARTICLE_MESSAGE":
+      return {
+        ...state,
+        createArticleMessage: action.payload
+      };
     default:
       return state;
   }
