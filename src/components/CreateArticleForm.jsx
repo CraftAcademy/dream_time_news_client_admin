@@ -49,7 +49,6 @@ const CreateArticleForm = () => {
   };
 
   const setImagePreview = (event) => {
-    debugger
     setImage(event.target.files[0]);
   };
 
