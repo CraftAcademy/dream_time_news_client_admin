@@ -1,24 +1,38 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Form, Input, TextArea, Button, Message } from "semantic-ui-react";
-import axios from 'axios';
+import { Form, Input, TextArea, Button, Message, Image } from "semantic-ui-react";
+import axios from "axios";
 // import ArticlesService from "../modules/ArticlesService";
 
 const CreateArticleForm = () => {
   const dispatch = useDispatch();
+  const [image, setImage] = useState();
   const message = useSelector((state) => state.createArticleMessage);
+
+  const toBase64 = (file) =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = () => reject(reader.error);
+    });
 
   const createArticle = async (event) => {
     event.preventDefault();
     let headers = JSON.parse(localStorage.getItem("J-tockAuth-Storage"));
     try {
-     let response = await axios.post(
+      let encodedImage;
+      if (image) {
+        encodedImage = await toBase64(image);
+      }
+      let response = await axios.post(
         "/articles",
         {
           article: {
             title: event.target.title.value,
             sub_title: event.target.input_sub_title.value,
             content: event.target.input_content.value,
+            image: encodedImage,
           },
         },
         {
@@ -30,9 +44,14 @@ const CreateArticleForm = () => {
         payload: response.data.message,
       });
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
-  }
+  };
+
+  const setImagePreview = (event) => {
+    debugger
+    setImage(event.target.files[0]);
+  };
 
   return (
     <>
@@ -63,6 +82,14 @@ const CreateArticleForm = () => {
           placeholder="Content"
         />
         <br />
+        <Form.Input
+          data-cy="input-image"
+          name="image"
+          placeholder="Image"
+          type="file"
+          onChange={setImagePreview}
+        />
+        <br />
         <Button
           color="green"
           data-cy="create-article-button"
@@ -77,6 +104,7 @@ const CreateArticleForm = () => {
           </Message>
         )}
       </Form>
+      {image && <Image src={URL.createObjectURL(image)} />}
     </>
   );
 };

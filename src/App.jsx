@@ -10,7 +10,7 @@ const App = () => {
   return (
     <div className="div-main">
       <Header />
-      {currentUser ? (
+      {auth.status ? (
         <>
           <CreateArticleForm />
           {auth && <p style={{ fontWeight: 'bold', fontSize: 20, color: 'black' }}

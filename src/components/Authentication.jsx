@@ -5,28 +5,6 @@ import { performAuthentication } from "../modules/auth";
 
 const Authentication = () => {
   const dispatch = useDispatch();
-  // const performAuthentication = async (event) => {
-  //   event.preventDefault();
-  //   // let credentials = {
-  //   //   email: event.target.email.value,
-  //   //   password: event.target.password.value,
-  //   // };
-  //   try {
-  //     let response = await axios.post("/auth/sign_in", credentials);
-
-  //   }
-  //   let userData = {
-  //     uid: response.headers["uid"],
-  //     client: response.headers["client"],
-  //     access_token: response.headers["access-token"],
-  //     token_type: "Bearer",
-  //     expiry: response.headers["expiry"],
-  //   };
-  //   dispatch({
-  //     type: "SET_CURRENT_USER",
-  //     payload: userData
-  //   });
-  // };
 
   return (
     <Segment placeholder>

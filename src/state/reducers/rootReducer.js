@@ -1,4 +1,4 @@
-const rootReducer = (state = {}, action) => {
+const rootReducer = (state = {auth: {status: true}}, action) => {
   switch (action.type) {
     case "SET_CURRENT_USER":
       return {
