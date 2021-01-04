@@ -13,7 +13,7 @@ describe("Journalist can create articles", () => {
     cy.route({
       method: "POST",
       url: "http://localhost:3000/api/articles",
-      response: {},
+      response: { message: "Your article was successfully created!" },
     });
     cy.visit("/");
   });
@@ -36,7 +36,7 @@ describe("Journalist can create articles", () => {
     });
     cy.get('[data-cy="response-message"]').should(
       "contain",
-      "Your article was created"
+      "Your article was successfully created!"
     );
   });
 

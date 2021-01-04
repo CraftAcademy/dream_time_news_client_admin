@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import axios from "axios";
-import {Form, Input, TextArea, Button, Message } from 'semantic-ui-react'
+import { createArticle } from '../modules/createArticle'
+import { Form, Input, TextArea, Button, Message } from 'semantic-ui-react'
 
 const CreateArticleForm = () => {
   const [message, setMessage] = useState();
@@ -10,35 +10,29 @@ const CreateArticleForm = () => {
   const [content, setContent] = useState();
 
   let headers = useSelector((state) => state.currentUser);
+
   const saveArticle = async (e) => {
     e.preventDefault();
     setTitle(e.target.title.value);
     setSubtitle(e.target.input_sub_title.value);
     setContent(e.target.input_content.value);
-    setMessage("Your article was created");
+
     headers = {
       ...headers,
       "Content-type": "application/json",
       Accept: "application/json",
     };
-    try {
-      await axios.post(
-        "/articles",
-        {
-          article: {
-            title: title,
-            sub_title: subtitle,
-            content: content,
-          },
-        },
-        {
-          headers: headers,
-        }
-      );
-    } catch (err) {
-      console.error(err);
-      alert("Something went wrong!");
+
+    let params = {
+      article: {
+        title: title,
+        sub_title: subtitle,
+        content: content,
+      }
     }
+
+    let response = await createArticle(headers, params)
+    setMessage(response)
   };
 
   return (
@@ -74,12 +68,12 @@ const CreateArticleForm = () => {
           Create Article
         </Button>
         {message &&
-        <Message
-          color="green"
-          size="big"
-          data-cy="response-message">{message}
-        </Message>
-      }
+          <Message
+            color="green"
+            size="big"
+            data-cy="response-message">{message}
+          </Message>
+        }
       </Form>
     </>
   );
