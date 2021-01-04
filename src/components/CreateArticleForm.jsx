@@ -1,8 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { CreateArticle } from '../modules/CreateArticle'
-import { Form, Input, TextArea, Button, Message } from 'semantic-ui-react'
-
+import { CreateArticle } from "../modules/CreateArticle";
+import { Form, Input, TextArea, Button, Message } from "semantic-ui-react";
 
 const CreateArticleForm = () => {
   const dispatch = useDispatch();
@@ -10,7 +9,10 @@ const CreateArticleForm = () => {
 
   return (
     <>
-      <Form data-cy="create-article-form" onSubmit={(e) => CreateArticle.create(e, dispatch)}>
+      <Form
+        data-cy="create-article-form"
+        onSubmit={(e) => CreateArticle.create(e, dispatch)}
+      >
         <Form.Field
           data-cy="input-title"
           label="Title"
@@ -34,17 +36,17 @@ const CreateArticleForm = () => {
           placeholder="Content"
         />
         <br />
-        <Button color="green"
+        <Button
+          color="green"
           data-cy="create-article-button"
           type="submit"
-          value="submit">
+          value="submit"
+        >
           Create Article
         </Button>
         {message && (
-          <Message
-            color="green"
-            size="big"
-            data-cy="response-message">{message}
+          <Message color="green" size="big" data-cy="response-message">
+            {message}
           </Message>
         )}
       </Form>

@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { Button, Icon, Segment, Form } from "semantic-ui-react";
-import axios from "axios"
+import axios from "axios";
 
 const Authentication = () => {
   const dispatch = useDispatch();
@@ -21,10 +21,10 @@ const Authentication = () => {
     };
     dispatch({
       type: "SET_CURRENT_USER",
-      payload: userData
+      payload: userData,
     });
   };
-  
+
   return (
     <Segment placeholder>
       <Form
@@ -32,7 +32,6 @@ const Authentication = () => {
         data-cy="login-form"
         onSubmit={(event) => performAuthentication(event)}
       >
-
         <Form.Input
           icon="at"
           type="text"
@@ -56,7 +55,6 @@ const Authentication = () => {
           <Icon name="user"></Icon>
           Submit
         </Button>
-        
       </Form>
     </Segment>
   );
