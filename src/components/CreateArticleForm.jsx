@@ -1,43 +1,16 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import { createArticle } from '../modules/createArticle'
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { CreateArticle } from '../modules/CreateArticle'
 import { Form, Input, TextArea, Button, Message } from 'semantic-ui-react'
 
+
 const CreateArticleForm = () => {
-  const [message, setMessage] = useState();
-  const [title, setTitle] = useState();
-  const [subtitle, setSubtitle] = useState();
-  const [content, setContent] = useState();
-
-  let headers = useSelector((state) => state.currentUser);
-
-  const saveArticle = async (e) => {
-    e.preventDefault();
-    setTitle(e.target.title.value);
-    setSubtitle(e.target.input_sub_title.value);
-    setContent(e.target.input_content.value);
-
-    headers = {
-      ...headers,
-      "Content-type": "application/json",
-      Accept: "application/json",
-    };
-
-    let params = {
-      article: {
-        title: title,
-        sub_title: subtitle,
-        content: content,
-      }
-    }
-
-    let response = await createArticle(headers, params)
-    setMessage(response)
-  };
+  const dispatch = useDispatch();
+  const message = useSelector((state) => state.createArticleMessage);
 
   return (
     <>
-      <Form data-cy="create-article-form" onSubmit={(e) => saveArticle(e)}>
+      <Form data-cy="create-article-form" onSubmit={(e) => CreateArticle.create(e, dispatch)}>
         <Form.Field
           data-cy="input-title"
           label="Title"
@@ -67,13 +40,13 @@ const CreateArticleForm = () => {
           value="submit">
           Create Article
         </Button>
-        {message &&
+        {message && (
           <Message
             color="green"
             size="big"
             data-cy="response-message">{message}
           </Message>
-        }
+        )}
       </Form>
     </>
   );
