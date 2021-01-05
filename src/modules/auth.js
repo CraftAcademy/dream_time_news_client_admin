@@ -1,8 +1,8 @@
 import JtockAuth from 'j-tockauth';
 
 const auth = new JtockAuth({
-  host: "http://localhost:3000",
-  prefixUrl: "/api",
+  host: 'http://localhost:3000',
+  prefixUrl: '/api',
 });
 
 const performAuthentication = async (e, dispatch) => {
@@ -14,11 +14,15 @@ const performAuthentication = async (e, dispatch) => {
       e.target.elements.password.value
     );
     dispatch({
-      type: "SET_CURRENT_USER",
+      type: 'SET_CURRENT_USER',
       payload: response.data,
     });
   } catch (error) {
     console.log(error);
+    dispatch({
+      type: 'SET_ERROR_MESSAGE',
+      payload: error.response.data.errors[0],
+    });
   }
 };
 

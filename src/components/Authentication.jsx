@@ -1,10 +1,11 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
-import { Button, Icon, Segment, Form } from 'semantic-ui-react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Button, Icon, Segment, Form, Message } from 'semantic-ui-react';
 import { performAuthentication } from '../modules/auth';
 
 const Authentication = () => {
   const dispatch = useDispatch();
+  const errorMessage = useSelector((state) => state.errorMessage);
 
   return (
     <Segment placeholder>
@@ -36,6 +37,8 @@ const Authentication = () => {
           <Icon name="user"></Icon>
           Submit
         </Button>
+        {errorMessage &&
+        <Message data-cy="error-message">{errorMessage}</Message> }
       </Form>
     </Segment>
   );
