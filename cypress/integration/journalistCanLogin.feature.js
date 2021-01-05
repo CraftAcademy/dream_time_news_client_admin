@@ -56,7 +56,6 @@ describe("Journalist can login", () => {
     cy.route({
       method: "POST",
       url: "http://localhost:3000/api/auth/sign_in",
-      status: "401",
       response: "fixture:registered_user_can_not_log_in.json",
     });
     cy.route({
