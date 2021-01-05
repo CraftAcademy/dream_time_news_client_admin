@@ -28,7 +28,6 @@ describe("Journalist can login", () => {
       "contain",
       "Logged in as journalist@mail.com"
     );
-    cy.get("[data-cy='flash-message']").should("contain", "You are logged in");
   });
 
   it("sad path: unsuccessfully", () => {
