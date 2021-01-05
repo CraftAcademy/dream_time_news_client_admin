@@ -23,7 +23,7 @@ const CreateArticle = {
         payload: response.data.message,
       });
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
   },
 };
