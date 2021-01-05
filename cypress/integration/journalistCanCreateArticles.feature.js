@@ -45,7 +45,7 @@ describe("Journalist can create articles", () => {
     );
   });
 
-  describe("unsuccessfully", () => {
+  describe("unsuccessfully when input field is not filled in", () => {
     beforeEach(() => {
       cy.route({
         method: "POST",
@@ -84,8 +84,36 @@ describe("Journalist can create articles", () => {
     });
   });
 
-  it("unauthorized", () => {
-    cy.visit("/");
-    cy.get('[data-cy="create-article-form"]').should("not.be.visible");
+  describe("unsuccessfully when an unauthorized user tries to create an article", () => {
+    beforeEach(() => {
+      cy.route({
+        method: "POST",
+        url: "http://localhost:3000/api/auth/sign_in",
+        response: {
+          errors: ["Invalid login credentials. Please try again."],
+          success: false,
+        },
+        headers: {
+          uid: "user@mail.com",
+        },
+      });
+      cy.route({
+        method: "GET",
+        url: "http://localhost:3000/api/auth/validate_token**",
+        response: {
+          errors: ["Invalid login credentials. Please try again."],
+          success: false,
+        },
+      });
+      cy.visit("/");
+      cy.get("[data-cy='login-form']").within(() => {
+        cy.get("[data-cy='email']").type("user@mail.com");
+        cy.get("[data-cy='password']").type("password");
+        cy.get("[data-cy='submit-btn']").contains("Submit").click();
+      });
+    });
+    it("should not display create article form", () => {
+      cy.get('[data-cy="create-article-form"]').should("not.be.visible");
+    });
   });
 });
