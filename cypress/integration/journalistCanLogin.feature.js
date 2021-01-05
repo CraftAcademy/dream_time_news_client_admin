@@ -30,7 +30,7 @@ describe("Journalist can login", () => {
     );
   });
 
-  it("sad path: unsuccessfully", () => {
+  it("sad path: unsuccessfully with wrong credentials", () => {
     cy.route({
       method: "POST",
       url: "http://localhost:3000/api/auth/sign_in",
@@ -45,7 +45,34 @@ describe("Journalist can login", () => {
       cy.get("[data-cy='email']").type("journalist@mail.com");
       cy.get("[data-cy='password']").type("wrongpassword");
       cy.get("[data-cy='submit-btn']").contains("Submit").click();
-      cy.get("[data-cy='error-message']").contains("Invalid login credentials. Please try again.");
+      cy.get("[data-cy='error-message']").contains(
+        "Invalid login credentials. Please try again."
+      );
+    });
+    cy.get("[data-cy='header-user-email']").contains("You're not logged in.");
+  });
+
+  it("sad path: unsuccessfully with right credentials but not an journalist", () => {
+    cy.route({
+      method: "POST",
+      url: "http://localhost:3000/api/auth/sign_in",
+      status: "401",
+      response: "fixture:registered_user_can_not_log_in.json",
+    });
+    cy.route({
+      method: "GET",
+      url: "http://localhost:3000/api/auth/validate_token**",
+      response: "fixture:registered_user_can_not_log_in.json",
+    });
+    cy.visit("/");
+
+    cy.get("[data-cy='login-form']").within(() => {
+      cy.get("[data-cy='email']").type("registered@user.com");
+      cy.get("[data-cy='password']").type("password");
+      cy.get("[data-cy='submit-btn']").contains("Submit").click();
+      cy.get("[data-cy='error-message']").contains(
+        "You are not authorized to be here"
+      );
     });
     cy.get("[data-cy='header-user-email']").contains("You're not logged in.");
   });

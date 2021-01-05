@@ -23,10 +23,10 @@ const performAuthentication = async (e, dispatch) => {
         type: "SET_ERROR_MESSAGE",
         payload: "You are not authorized to be here",
       });
-      localStorage.removeItem("J-tockAuth-Storage")
+      localStorage.removeItem("J-tockAuth-Storage");
     }
-
   } catch (error) {
+    debugger
     console.log(error);
     dispatch({
       type: "SET_ERROR_MESSAGE",
