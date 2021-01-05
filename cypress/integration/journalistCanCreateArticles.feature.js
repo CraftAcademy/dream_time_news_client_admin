@@ -11,9 +11,14 @@ describe("Journalist can create articles", () => {
       },
     });
     cy.route({
+      method: "GET",
+      url: "http://localhost:3000/api/auth/validate_token**",
+      response: "fixture:journalist_can_login.json",
+    });
+    cy.route({
       method: "POST",
       url: "http://localhost:3000/api/articles",
-      response: {},
+      response: { message: "Your article was successfully created!" },
     });
     cy.visit("/");
   });
@@ -29,7 +34,6 @@ describe("Journalist can create articles", () => {
       cy.get('[data-cy="input-sub-title"]').type(
         "Each person should receive two doses of vaccine"
       );
-      cy.get('[data-cy="input-author"]').type("William Super");
       cy.get('[data-cy="input-content"]').type(
         "Russia has distributed vaccines months ago"
       );
@@ -37,30 +41,79 @@ describe("Journalist can create articles", () => {
     });
     cy.get('[data-cy="response-message"]').should(
       "contain",
-      "Your article was created"
+      "Your article was successfully created!"
     );
   });
 
-  it("unauthorized", () => {
-    cy.get("[data-cy='login-form']").within(() => {
-      cy.get("[data-cy='email']").type("wrong.email");
-      cy.get("[data-cy='password']").type("wrong password");
-      cy.get("[data-cy='submit-btn']").contains("Submit").click();
+  describe("unsuccessfully when input field is not filled in", () => {
+    beforeEach(() => {
+      cy.route({
+        method: "POST",
+        url: "http://localhost:3000/api/articles",
+        response: { message: "Something went wrong!" },
+      });
+      cy.get("[data-cy='login-form']").within(() => {
+        cy.get("[data-cy='email']").type("journalist@mail.com");
+        cy.get("[data-cy='password']").type("password");
+        cy.get("[data-cy='submit-btn']").contains("Submit").click();
+      });
     });
-    cy.get('[data-cy="create-article-form"]').within(() => {
+    it("when there is no title", () => {
+      cy.get('[data-cy="input-sub-title"]').type(
+        "Each person should receive two doses of vaccine"
+      );
+      cy.get('[data-cy="input-content"]').type(
+        "Russia has distributed vaccines months ago"
+      );
+      cy.get('[data-cy="create-article-button"]').click();
+      cy.get('[data-cy="response-message"]').should(
+        "contain",
+        "Something went wrong!"
+      );
+    });
+    it("when there is no content", () => {
       cy.get('[data-cy="input-title"]').type("Covid vaccine is found");
       cy.get('[data-cy="input-sub-title"]').type(
         "Each person should receive two doses of vaccine"
       );
-      cy.get('[data-cy="input-author"]').type("William Super");
-      cy.get('[data-cy="input-content"]').type(
-        "Russia has distributed vaccines months ago"
-      );
       cy.get('[data-cy="create-article-button"]').click();
+      cy.get('[data-cy="response-message"]').should(
+        "contain",
+        "Something went wrong!"
+      );
     });
-    cy.get('[data-cy="response-message"]').should(
-      "contain",
-      "You need to be an authorized user"
-    );
-  })
+  });
+
+  describe("unsuccessfully when an unauthorized user tries to create an article", () => {
+    beforeEach(() => {
+      cy.route({
+        method: "POST",
+        url: "http://localhost:3000/api/auth/sign_in",
+        response: {
+          errors: ["Invalid login credentials. Please try again."],
+          success: false,
+        },
+        headers: {
+          uid: "user@mail.com",
+        },
+      });
+      cy.route({
+        method: "GET",
+        url: "http://localhost:3000/api/auth/validate_token**",
+        response: {
+          errors: ["Invalid login credentials. Please try again."],
+          success: false,
+        },
+      });
+      cy.visit("/");
+      cy.get("[data-cy='login-form']").within(() => {
+        cy.get("[data-cy='email']").type("user@mail.com");
+        cy.get("[data-cy='password']").type("password");
+        cy.get("[data-cy='submit-btn']").contains("Submit").click();
+      });
+    });
+    it("should not display create article form", () => {
+      cy.get('[data-cy="create-article-form"]').should("not.be.visible");
+    });
+  });
 });

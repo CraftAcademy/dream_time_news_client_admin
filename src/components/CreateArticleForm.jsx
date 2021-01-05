@@ -1,86 +1,55 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import axios from "axios"
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { CreateArticle } from "../modules/CreateArticle";
+import { Form, Input, TextArea, Button, Message } from "semantic-ui-react";
 
 const CreateArticleForm = () => {
-  const [message, setMessage] = useState()
-  const [title, setTitle] = useState()
-  const [subtitle, setSubtitle] = useState()
-  const [content, setContent] = useState()
-
-  let headers = useSelector((state) => state.currentUser)
-  const saveArticle = async (e) => {
-    e.preventDefault()
-    setTitle(e.target.title.value);
-    setSubtitle(e.target.input_sub_title.value)
-    setContent(e.target.input_content.value)
-    setMessage("Your article was created")
-    headers = {
-      ...headers,
-      "Content-type": "application/json",
-      Accept: "application/json"
-    }
-    try {
-      await axios.post(
-        "/articles",
-        {
-          article: {
-            title: title,
-            sub_title: subtitle,
-            content: content,
-          },
-        },
-        {
-          headers: headers,
-        }
-      )
-    }
-    catch (err) {
-      console.error(err);
-      alert("Something went wrong!")
-    }
-  }
+  const dispatch = useDispatch();
+  const message = useSelector((state) => state.createArticleMessage);
 
   return (
     <>
-      <form data-cy="create-article-form" onSubmit={(e) => saveArticle(e)}>
-        <input
+      <Form
+        data-cy="create-article-form"
+        onSubmit={(e) => CreateArticle.create(e, dispatch)}
+      >
+        <Form.Field
           data-cy="input-title"
-          type="text"
+          label="Title"
+          control={Input}
           name="title"
           placeholder="Title"
         />
         <br />
-        <input
-          data-cy="input-author"
-          type="text"
-          name="input_author"
-          placeholder="Author"
-        />
-        <br />
-        <input
+        <Form.Field
           data-cy="input-sub-title"
-          type="text"
+          label="Subtitle"
+          control={Input}
           name="input_sub_title"
           placeholder="Sub Title"
         />
         <br />
-        <input
+        <Form.Field
           data-cy="input-content"
-          type="text"
+          control={TextArea}
           name="input_content"
           placeholder="Content"
         />
         <br />
-        <button
+        <Button
+          color="green"
           data-cy="create-article-button"
           type="submit"
           value="submit"
         >
           Create Article
-        </button>
-        <p data-cy="response-message">{message && message}</p>
-      </form>
+        </Button>
+        {message && (
+          <Message color="green" size="big" data-cy="response-message">
+            {message}
+          </Message>
+        )}
+      </Form>
     </>
   );
 };

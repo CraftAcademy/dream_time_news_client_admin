@@ -1,38 +1,19 @@
-import React from "react";
-import { useDispatch } from "react-redux";
-import { Button, Icon, Segment, Form } from "semantic-ui-react";
-import axios from "axios"
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Button, Icon, Segment, Form, Message } from 'semantic-ui-react';
+import { performAuthentication } from '../modules/auth';
 
 const Authentication = () => {
   const dispatch = useDispatch();
-  const performAuthentication = async (event) => {
-    event.preventDefault();
-    let credentials = {
-      email: event.target.email.value,
-      password: event.target.password.value,
-    };
-    let response = await axios.post("/auth/sign_in", credentials);
-    let userData = {
-      uid: response.headers["uid"],
-      client: response.headers["client"],
-      access_token: response.headers["access-token"],
-      token_type: "Bearer",
-      expiry: response.headers["expiry"],
-    };
-    dispatch({
-      type: "SET_CURRENT_USER",
-      payload: userData
-    });
-  };
-  
+  const errorMessage = useSelector((state) => state.errorMessage);
+
   return (
     <Segment placeholder>
       <Form
         className="loginForm"
         data-cy="login-form"
-        onSubmit={(event) => performAuthentication(event)}
+        onSubmit={(event) => performAuthentication(event, dispatch)}
       >
-
         <Form.Input
           icon="at"
           type="text"
@@ -56,6 +37,8 @@ const Authentication = () => {
           <Icon name="user"></Icon>
           Submit
         </Button>
+        {errorMessage &&
+        <Message data-cy="error-message">{errorMessage}</Message> }
       </Form>
     </Segment>
   );

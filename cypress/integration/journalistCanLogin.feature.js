@@ -12,7 +12,7 @@ describe("Journalist can login", () => {
     });
     cy.route({
       method: "GET",
-      url: "http://localhost:3000/api/auth/validate_token",
+      url: "http://localhost:3000/api/auth/validate_token**",
       response: "fixture:journalist_can_login.json",
     });
     cy.visit("/");
@@ -28,7 +28,6 @@ describe("Journalist can login", () => {
       "contain",
       "Logged in as journalist@mail.com"
     );
-    cy.get("[data-cy='flash-message']").should("contain", "You are logged in");
   });
 
   it("sad path: unsuccessfully", () => {
@@ -37,7 +36,7 @@ describe("Journalist can login", () => {
       url: "http://localhost:3000/api/auth/sign_in",
       status: "401",
       response: {
-        errors: ["Login failed, please try again"],
+        errors: ["Invalid login credentials. Please try again."],
         success: false,
       },
     });
@@ -46,6 +45,7 @@ describe("Journalist can login", () => {
       cy.get("[data-cy='email']").type("journalist@mail.com");
       cy.get("[data-cy='password']").type("wrongpassword");
       cy.get("[data-cy='submit-btn']").contains("Submit").click();
+      cy.get("[data-cy='error-message']").contains("Invalid login credentials. Please try again.");
     });
     cy.get("[data-cy='header-user-email']").contains("You're not logged in.");
   });
