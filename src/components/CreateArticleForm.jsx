@@ -5,7 +5,7 @@ import { Form, Input, TextArea, Button, Message } from "semantic-ui-react";
 
 const CreateArticleForm = () => {
   const dispatch = useDispatch();
-  const message = useSelector((state) => state.createArticleMessage);
+  const { createArticleMessage, errorMessage } = useSelector(state => state);
 
   return (
     <>
@@ -44,9 +44,14 @@ const CreateArticleForm = () => {
         >
           Create Article
         </Button>
-        {message && (
+        {createArticleMessage && (
           <Message color="green" size="big" data-cy="response-message">
-            {message}
+            {createArticleMessage}
+          </Message>
+        )}
+        {errorMessage && (
+          <Message color="red" size="big" data-cy="response-message">
+            {errorMessage}
           </Message>
         )}
       </Form>
