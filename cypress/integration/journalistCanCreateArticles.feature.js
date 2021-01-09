@@ -24,14 +24,13 @@ describe('Journalist can create articles', () => {
   });
 
   it('successfully', () => {
-    const title = 'Covid vaccine is found';
     cy.get("[data-cy='login-form']").within(() => {
       cy.get("[data-cy='email']").type('journalist@mail.com');
       cy.get("[data-cy='password']").type('password');
       cy.get("[data-cy='submit-btn']").contains('Submit').click();
     });
     cy.get('[data-cy="create-article-form"]').within(() => {
-      cy.get('[data-cy="input-title"]').type(title);
+      cy.get('[data-cy="input-title"]').type('Covid vaccine is found');
       cy.get('[data-cy="input-sub-title"]').type(
         'Each person should receive two doses of vaccine'
       );
@@ -52,7 +51,7 @@ describe('Journalist can create articles', () => {
       cy.route({
         method: 'POST',
         url: 'http://localhost:3000/api/articles',
-        response: { message: 'Something went wrong!' },
+        response: { message: 'Please fill in all input fields!' },
         status: 422,
       });
       cy.get("[data-cy='login-form']").within(() => {
@@ -71,7 +70,7 @@ describe('Journalist can create articles', () => {
       cy.get('[data-cy="create-article-button"]').click();
       cy.get('[data-cy="response-message"]').should(
         'contain',
-        'Something went wrong!'
+        'Please fill in all input fields!'
       );
     });
     it('when there is no content', () => {
@@ -82,7 +81,7 @@ describe('Journalist can create articles', () => {
       cy.get('[data-cy="create-article-button"]').click();
       cy.get('[data-cy="response-message"]').should(
         'contain',
-        'Something went wrong!'
+        'Please fill in all input fields!'
       );
     });
   });
