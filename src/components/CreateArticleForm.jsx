@@ -38,7 +38,7 @@ const CreateArticleForm = () => {
         <br />
         <Form.Input
           data-cy="file-input"
-          name="file-input"
+          name="file_input"
           placeholder="Image"
           type="file"
         />

@@ -12,6 +12,7 @@ const CreateArticle = {
             title: e.target.title.value,
             sub_title: e.target.input_sub_title.value,
             content: e.target.input_content.value,
+            file: e.target.file_input.value
           },
         },
         {
