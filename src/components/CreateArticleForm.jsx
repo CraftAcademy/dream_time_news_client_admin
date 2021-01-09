@@ -1,11 +1,11 @@
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { CreateArticle } from "../modules/CreateArticle";
-import { Form, Input, TextArea, Button, Message } from "semantic-ui-react";
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { CreateArticle } from '../modules/CreateArticle';
+import { Form, Input, TextArea, Button, Message } from 'semantic-ui-react';
 
 const CreateArticleForm = () => {
   const dispatch = useDispatch();
-  const { createArticleMessage, errorMessage } = useSelector(state => state);
+  const { createArticleMessage, errorMessage } = useSelector((state) => state);
 
   return (
     <>
@@ -34,6 +34,13 @@ const CreateArticleForm = () => {
           control={TextArea}
           name="input_content"
           placeholder="Content"
+        />
+        <br />
+        <Form.Input
+          data-cy="file-input"
+          name="file-input"
+          placeholder="Image"
+          type="file"
         />
         <br />
         <Button
