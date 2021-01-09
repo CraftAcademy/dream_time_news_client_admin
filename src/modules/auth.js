@@ -25,8 +25,7 @@ const performAuthentication = async (e, dispatch) => {
       });
       localStorage.removeItem("J-tockAuth-Storage");
     }
-  } 
-  catch (error) {
+  } catch (error) {
     dispatch({
       type: "SET_ERROR_MESSAGE",
       payload: error.response.data.errors[0],
