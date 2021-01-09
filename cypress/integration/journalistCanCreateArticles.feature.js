@@ -38,7 +38,7 @@ describe('Journalist can create articles', () => {
       cy.get('[data-cy="input-content"]').type(
         'Russia has distributed vaccines months ago'
       );
-      cy.get('[data-cy="file-input"]').attachFile('image.png');
+      cy.get('[name="file_input"]').attachFile('image.png');
       cy.get('[data-cy="create-article-button"]').click();
     });
     cy.get('[data-cy="response-message"]').should(
