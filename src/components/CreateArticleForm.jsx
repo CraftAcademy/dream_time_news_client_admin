@@ -20,7 +20,6 @@ const CreateArticleForm = () => {
           name="title"
           placeholder="Title"
         />
-        <br />
         <Form.Field
           data-cy="input-sub-title"
           label="Subtitle"
@@ -28,21 +27,18 @@ const CreateArticleForm = () => {
           name="input_sub_title"
           placeholder="Sub Title"
         />
-        <br />
         <Form.Field
           data-cy="input-content"
           control={TextArea}
           name="input_content"
           placeholder="Content"
         />
-        <br />
         <Form.Input
           data-cy="file-input"
           name="file_input"
           placeholder="Image"
           type="file"
         />
-        <br />
         <Button
           color="green"
           data-cy="create-article-button"

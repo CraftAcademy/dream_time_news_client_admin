@@ -4,7 +4,17 @@ const CreateArticle = {
   async create(e, dispatch) {
     e.preventDefault();
     let headers = JSON.parse(localStorage.getItem("J-tockAuth-Storage"));
+    const toBase64 = (file) => new Promise((resolve, reject) => {
+      const reader = new FileReader()
+      reader.readAsDataURL(file)
+      reader.onload = () => resolve(reader.result)
+      reader.onerror = () => reject(error)
+    })
     try {
+      let encodedImage
+      if (e.target.file_input.files[0]) {
+        encodedImage = await toBase64(e.target.file_input.files[0])  
+      }
       let response = await axios.post(
         "/articles",
         {

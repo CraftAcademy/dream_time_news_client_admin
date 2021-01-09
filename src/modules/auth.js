@@ -27,7 +27,6 @@ const performAuthentication = async (e, dispatch) => {
     }
   } 
   catch (error) {
-    console.log(error);
     dispatch({
       type: "SET_ERROR_MESSAGE",
       payload: error.response.data.errors[0],
