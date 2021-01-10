@@ -1,11 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { CreateArticle } from "../modules/CreateArticle";
-import { Form, Input, TextArea, Button, Message } from "semantic-ui-react";
+import {
+  Form,
+  Input,
+  TextArea,
+  Button,
+  Message,
+  Image,
+  Container,
+  Divider,
+} from "semantic-ui-react";
 
 const CreateArticleForm = () => {
   const dispatch = useDispatch();
-  const { createArticleMessage, errorMessage } = useSelector(state => state);
+  const [image, setImage] = useState();
+  const { createArticleMessage, errorMessage } = useSelector((state) => state);
+
+  const setImagePreview = (e) => {
+    setImage(e.target.files[0]);
+  };
 
   return (
     <>
@@ -20,7 +34,6 @@ const CreateArticleForm = () => {
           name="title"
           placeholder="Title"
         />
-        <br />
         <Form.Field
           data-cy="input-sub-title"
           label="Subtitle"
@@ -28,14 +41,19 @@ const CreateArticleForm = () => {
           name="input_sub_title"
           placeholder="Sub Title"
         />
-        <br />
         <Form.Field
           data-cy="input-content"
           control={TextArea}
           name="input_content"
           placeholder="Content"
         />
-        <br />
+        <Form.Input
+          data-cy="file-input"
+          name="file_input"
+          placeholder="Image"
+          type="file"
+          onChange={setImagePreview}
+        />
         <Button
           color="green"
           data-cy="create-article-button"
@@ -55,6 +73,16 @@ const CreateArticleForm = () => {
           </Message>
         )}
       </Form>
+      <Container>
+        <Divider horizontal>Image Preview:</Divider>
+        {image && (
+          <Image
+            size="small"
+            centered="true"
+            src={URL.createObjectURL(image)}
+          />
+        )}
+      </Container>
     </>
   );
 };

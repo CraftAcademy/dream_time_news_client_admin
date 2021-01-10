@@ -30,7 +30,7 @@ describe("Journalist can login", () => {
     );
   });
 
-  it("sad path: unsuccessfully with wrong credentials", () => {
+  it("unsuccessfully with wrong credentials", () => {
     cy.route({
       method: "POST",
       url: "http://localhost:3000/api/auth/sign_in",
@@ -52,7 +52,7 @@ describe("Journalist can login", () => {
     cy.get("[data-cy='header-user-email']").contains("You're not logged in.");
   });
 
-  it("sad path: unsuccessfully with right credentials but not an journalist", () => {
+  it("unsuccessfully with only user credentials", () => {
     cy.route({
       method: "POST",
       url: "http://localhost:3000/api/auth/sign_in",
