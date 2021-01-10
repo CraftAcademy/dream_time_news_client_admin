@@ -1,17 +1,11 @@
 import axios from "axios";
+import toBase64 from "./toBase64"
 
 const CreateArticle = {
   async create(e, dispatch) {
     e.preventDefault();
     let headers = JSON.parse(localStorage.getItem("J-tockAuth-Storage"));
 
-    const toBase64 = (file) =>
-      new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = () => reject(reader.error);
-      });
     try {
       let encodedImage;
       if (e.target.file_input.files[0]) {
