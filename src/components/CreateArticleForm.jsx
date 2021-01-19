@@ -22,7 +22,7 @@ const CreateArticleForm = () => {
   };
 
   return (
-    <Container>
+    <>
       <Form
         data-cy="create-article-form"
         onSubmit={(e) => CreateArticle.create(e, dispatch)}
@@ -83,7 +83,7 @@ const CreateArticleForm = () => {
           />
         )}
       </Container>
-    </Container>
+    </>
   );
 };
 
